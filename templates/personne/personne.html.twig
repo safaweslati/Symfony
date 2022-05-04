@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/cyborg/bootstrap.min.css">
+    <title>liste Personne</title>
+</head>
+<body>
+{% for msg in app.session.FlashBag.get('succes') %}
+<div class="alert alert-success">
+    {{ msg }}
+</div>
+{% endfor %}
+{% for msg in app.session.FlashBag.get('error') %}
+    <div class="alert alert-danger">
+        {{ msg }}
+    </div>
+{% endfor %}
+{% for personne in personnes %}
+<div class="p-2" style="width: 18rem;">
+    <div class="card-body">
+        <h5 class="card-title">{{ personne.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ personne.firstname }} {{ personne.name }}</h6>
+        <p class="card-text">Age : {{ personne.age }} </p>
+        <a href="{{ path('detail',{ id:personne.id}) }}" class="card-link">Détail</a>
+        <a href="{{ path('delete',{ id:personne.id}) }}" class="card-link">Delete</a>
+    </div>
+</div>
+{% endfor %}
+{% if isPaginated is defined and isPaginated %}
+<nav aria-label="Page navigation example" style="padding-left: 15%">
+    <ul class="pagination">
+        {% if page != 1 %}
+        <li class="page-item"><a class="page-link" href="{{ path('all',{ page : page-1,nbre : nbre }) }}">Previous</a></li>
+        {% endif %}
+        {% for i in range(1,nbPage) %}
+           <li class="page-item"><a class="page-link" href={{ path('all',{ page : i,nbre : nbre }) }}>{{ i }}</a></li>
+        {% endfor %}
+        {% if page != nbPage %}
+        <li class="page-item"><a class="page-link" href="{{ path('all',{ page : page+1,nbre : nbre }) }}">Next</a></li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+</body>
+</html>
